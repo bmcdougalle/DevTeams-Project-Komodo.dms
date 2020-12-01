@@ -73,7 +73,7 @@ namespace komodo_console
 
         //Developer Helper (Get Developer by ID)
         public void GetDeveloper() { }
-        public Developer GetDeveloper(int idNumber, int inputdev2)
+        public Developer GetDeveloper(int idNumber)
         {
             foreach (Developer developer in _developerDirectory)
             {
@@ -84,16 +84,6 @@ namespace komodo_console
             }
             return null;
         }
-        public Developer DevAccess(bool pluralSight)
-        {
-            foreach(Developer developer in _developerDirectory)
-            {
-                if(developer.PluralSightLicense == false)
-                {
-                    return developer;
-                }
-            }
-            return null;
-        }
+        
     }
 }

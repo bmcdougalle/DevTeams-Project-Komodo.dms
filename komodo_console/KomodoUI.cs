@@ -117,13 +117,8 @@ namespace komodo_console
             Console.Clear();
             ViewAllDevelopers();
             Console.WriteLine("Enter Developer ID to Add to Team");
-            var line = Console.ReadLine();
-            var data = line.Split(' ');
-            var inputdev1 = int.Parse(data[0]); //first integer
-            var inputdev2 = int.Parse(data[1]); //second integer
-
-            //int inputDev = int.Parse(Console.ReadLine());
-            Developer developer = _developerRepo.GetDeveloper(inputdev1, inputdev2);
+            int inputDev = int.Parse(Console.ReadLine());
+            Developer developer = _developerRepo.GetDeveloper(inputDev);
 
             //double devInput = double.Parse(inputDev);
             ViewDevTeams();
@@ -482,17 +477,6 @@ namespace komodo_console
             Team2.Developers.Add(ShellyThompson);
             Team2.Developers.Add(BradKinder);
 
-        }
-        private Developer plAccess(bool pluralSightLicense, Developer developer)
-        {
-            if(pluralSightLicense == false)
-            {
-                return developer;
-            }
-            else
-            {
-                return null;
-            }
         }
         
             
