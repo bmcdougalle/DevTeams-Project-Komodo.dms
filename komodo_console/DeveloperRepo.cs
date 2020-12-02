@@ -84,6 +84,20 @@ namespace komodo_console
             }
             return null;
         }
+
+        public List<Developer> RetrieveDevelopersWithoutPSL()
+        {
+            List<Developer> developers = new List<Developer>();
+            foreach (var developer in _developerDirectory)
+            {
+                if (developer.PluralSightLicense == false)
+                {
+                    developers.Add(developer);
+
+                }
+            }
+            return developers;
+        }
         
     }
 }

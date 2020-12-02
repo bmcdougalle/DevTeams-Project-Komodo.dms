@@ -115,20 +115,72 @@ namespace komodo_console
         private void AddDevelopersToTeam()
         {
             Console.Clear();
-            ViewAllDevelopers();
-            Console.WriteLine("Enter Developer ID to Add to Team");
-            int inputDev = int.Parse(Console.ReadLine());
-            Developer developer = _developerRepo.GetDeveloper(inputDev);
+            List<Developer> developersToAdd = new List<Developer>();
+            bool hasFIlledPositions = false;
 
-            //double devInput = double.Parse(inputDev);
-            ViewDevTeams();
-            Console.WriteLine("\n" +
-                "\n");
-            Console.WriteLine("Please enter Development team ID");
-            int inputTeamId = int.Parse(Console.ReadLine());
-            DevTeam devTeam = _devTeamRepo.GetTeam(inputTeamId);
-            devTeam.Developers.Add(developer);
+            ViewAllDevelopers();
+            Console.WriteLine("**********************\n");
             
+            ViewDevTeams();
+            Console.WriteLine("Please input a team id");
+            int userInput = int.Parse(Console.ReadLine());
+
+            while (hasFIlledPositions == false)
+            {
+                Console.WriteLine("Do you have any members to add to the team? y/n");
+                string userInputHasPositionFilled = Console.ReadLine();
+                if(userInputHasPositionFilled == "y" || userInputHasPositionFilled == "Y")
+                {
+                    Console.Clear();
+                    ViewAllDevelopers();
+                    Developer developer = new Developer();
+
+                    Console.WriteLine("Enter ID NUmber for the Developer");
+                    string idAsString = Console.ReadLine();
+                    developer.IdNumber = double.Parse(idAsString);
+
+                    Console.WriteLine("Enter The Developers First Name");
+                    developer.FirstName = Console.ReadLine();
+
+                    Console.WriteLine("Enter The Developer's Last Name");
+                    developer.LastName = Console.ReadLine();
+
+                    Console.WriteLine("Enter Developer's company E-mail");
+                    developer.CompanyEmail = Console.ReadLine();
+
+                    Console.WriteLine("Enter number for the Developer's Most Proficient Language\n" +
+                                      "1. Ruby\n" +
+                                      "2. Python\n" +
+                                      "3. CSharp\n" +
+                                      "4. Java\n" +
+                                      "5. JavaScript\n" +
+                                      "6. PHP\n" +
+                                      "7. SQL\n" +
+                                      "8. Kotlin");
+                    string numAsString = Console.ReadLine();
+                    int numAsInt = int.Parse(numAsString);
+                    developer.SpecificLanguage = (ProgrammingLanguage)numAsInt;
+
+                    Console.WriteLine("Does this developer have a PluralSight License?");
+                    string pluralSight = Console.ReadLine().ToLower();
+                    if (pluralSight == "y")
+                    {
+                        developer.PluralSightLicense = true;
+                    }
+                    else
+                    {
+                        developer.PluralSightLicense = false;
+                    }
+                    developersToAdd.Add(developer);
+                    _developerRepo.AddDeveloperToList(developer);
+
+                }
+                if (userInputHasPositionFilled == "n" || userInputHasPositionFilled == "N")
+                {
+                    _devTeamRepo.AddMultipleDevsToTeam(userInput, developersToAdd);
+                    hasFIlledPositions = true;
+                }
+            }
         }
 
         private void ViewDevTeams()
@@ -273,7 +325,7 @@ namespace komodo_console
                         RemoveDeveloper();
                         break;
                     case "6":
-                       // plAccess
+                        RetrieveDevelopersWithoutPSL();
                         break;
                     case "7":
                         Console.WriteLine("Have a Great Day, Good Bye");
@@ -291,6 +343,19 @@ namespace komodo_console
 
             }
         }
+
+        private void RetrieveDevelopersWithoutPSL()
+        {
+            Console.Clear();
+            List<Developer> developers = _developerRepo.RetrieveDevelopersWithoutPSL();
+            foreach (var developer in developers)
+            {
+                Console.WriteLine($"Developer ID {developer.IdNumber}\n" +
+                                  $"Developer Name {developer.FirstName} {developer.LastName}\n" +
+                                  $"Has PluralSight {developer.PluralSightLicense}\n\n");
+            }
+        }
+
         private void AddDeveloperToList()
         {
             Console.Clear();

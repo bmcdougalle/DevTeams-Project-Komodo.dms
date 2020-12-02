@@ -89,5 +89,17 @@ namespace komodo_console
             return null;
         }
 
+        public void AddMultipleDevsToTeam(int ID, List<Developer> developers)
+        {
+            var devTeam = GetTeam(ID);
+            if(devTeam != null)
+            {
+                foreach (var developer in developers)
+                {
+                    devTeam.Developers.Add(developer);
+                }
+            }
+        }
+
     }
 }
